@@ -1,0 +1,14 @@
+	What is PostgresSQL?
+Also known as postgres, is an open-source relational database management system(RDBMS).
+It provides a powerful structure and scalable platform for managing large volumes of structure data.
+
+	What is pgAdmin?
+This is a free and open-source administration and development platform for managing PostgreSQL databases.
+It provides a graphical user interface(GUI) that allows users to interact with the database and perform various administrative tasks. pgAdmin is available for multiple operating systems and is widely used as a primary tool for PostgresSQL database administration.
+
+In summary, PostgresSQL is an SQL Engine that stores data and read queries and returns information. While PgAdmin is a Graphical User interface for connecting with PostgreSQL.
+
+	What is the SELECT statement
+SELECT statement is used to retrieve data from one or more database tables.
+
+SELECT * FROM film;
