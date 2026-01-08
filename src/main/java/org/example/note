@@ -4,11 +4,70 @@ It provides a powerful structure and scalable platform for managing large volume
 
 	What is pgAdmin?
 This is a free and open-source administration and development platform for managing PostgreSQL databases.
-It provides a graphical user interface(GUI) that allows users to interact with the database and perform various administrative tasks. pgAdmin is available for multiple operating systems and is widely used as a primary tool for PostgresSQL database administration.
+It provides a graphical user interface(GUI) that allows users to interact with the database and perform various administrative tasks.
+pgAdmin is available for multiple operating systems and is widely used as a primary tool for PostgresSQL database administration.
 
-In summary, PostgresSQL is an SQL Engine that stores data and read queries and returns information. While PgAdmin is a Graphical User interface for connecting with PostgreSQL.
+In summary, PostgresSQL is an SQL Engine that stores data and read queries and returns information.
+While PgAdmin is a Graphical User interface for connecting with PostgreSQL.
 
-	What is the SELECT statement
+1)SELECT statement
 SELECT statement is used to retrieve data from one or more database tables.
+It allows you to specify the columns you want to retrieve, the tables from which you want to retrieve the data and
+any conditions that must be met for the data to be included in the result set.
+    Syntax
+1)retrieving data from one column
+SELECT column_name FROM table_name;
+2)retrieving data from two columns
+SELECT column_name1,column_name1 FROM table_name;
+3)retrieving all the data from a table
+you can type all the column names but that will be stressful.
+so we do,
+SELECT * FROM table_name
+The sql statements are capitalized so you can see the distinction between them and the column names and table name.
+ps: The sql statements can also be written in small letters
+ps:Always capitalize the sql statements(keywords).
+Challenge 1
+We want to see the payment date of our existing customers.
+use a SELECT statement to grab the customer id of every customer , the payment date and the amount
+Answer
+SELECT customer_id, payment_date, amount FROM payment
 
-SELECT * FROM film;
+1a)SELECT DISTINCT
+The DISTINCT statement is used to filter the result set of a query and retrieve only unique rows from specified column or combination of columns.
+It is useful when you want to eliminate duplicate records from the query results.
+only the first occurrence of each unique value is retuned in the result.
+    Syntax
+SELECT DISTINCT column_name FROM table_name;
+To clarify which column DISTINCT is being applied to, use parenthesis.
+SELECT DISTINCT (column) FROM table_name;
+Challenge 2
+You are a data analyst working for some video rental store.
+The management has noticed that some customers have similar names,
+and they want you to identify unique first names across all customers in the database.
+Answer
+SELECT DISTINCT first_name FROM customer;
+
+1b)COUNT
+The COUNT function allows you to count the number of rows that match a specified condition within a table.
+It returns a single value representing the count of rows that meet the criteria.
+The COUNT function helps you obtain statistical information about your data.
+eg count the number of records in a table etc.
+    syntax
+SELECT COUNT * FROM table_name;
+    How to use COUNT with the DISTINCT statement
+When combined, it allows you to count the number of unique values in a specified column.
+SELECT COUNT (DISTINCT column_name) FROM table_name;
+    COUNT with Parentheses and asterix
+Use COUNT(*) when you want to count the total number of rows in a table,
+irrespective of whether they are Null values or not.
+    COUNT with column_name
+The COUNT(column_name) counts the number of non-Null values in the specified column.
+SELECT COUNT(column_name) from table_name;
+
+1c)SELECT WHERE
+This allows you to retrieve specific rows from a table that match certain conditions.
+    Syntax
+SELECT column_name FROM table_name WHERE condition;
+
+
+
