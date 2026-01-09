@@ -35,11 +35,11 @@ SELECT customer_id, payment_date, amount FROM payment
 1a)SELECT DISTINCT
 The DISTINCT statement is used to filter the result set of a query and retrieve only unique rows from specified column or combination of columns.
 It is useful when you want to eliminate duplicate records from the query results.
-only the first occurrence of each unique value is retuned in the result.
+only the first occurrence of each unique value is returned in the result.
     Syntax
 SELECT DISTINCT column_name FROM table_name;
 To clarify which column DISTINCT is being applied to, use parenthesis.
-SELECT DISTINCT (column) FROM table_name;
+SELECT DISTINCT (column_name) FROM table_name;
 Challenge 2
 You are a data analyst working for some video rental store.
 The management has noticed that some customers have similar names,
@@ -68,6 +68,44 @@ SELECT COUNT(column_name) from table_name;
 This allows you to retrieve specific rows from a table that match certain conditions.
     Syntax
 SELECT column_name FROM table_name WHERE condition;
+A condition is a logical expression that evaluates to ture or false for each row in the table.
+The WHERE clause uses the conditions to determine which rows to include in the result set.
+Common operators used in the conditions include:
+=: Equal to
+<> or !=: Not equal to
+>: Greater than
+<: Less than
+>=: Greater than or equal to
+<=: Less than or equal to
+BETWEEN: Between a range of values(inclusive)
+LIKE: Pattern matching using wildcards(often used with % and _)% represents zero,one or multiple characters, while _ represents a single character.
+IN: Matches any value in a list
+IS NULL: Checks for NULL values
+AND, OR, NOT: Logical operators for combining multiple conditions
+AND requires all conditions to be true
+OR requires one of the conditions to be true
+    Examples
+SELECT * FROM Employees WHERE department = 'sales';
+SELECT * FROM Employees WHERE department <> 'Finance';
+SELECT * FROM Employees WHERE age > 30;
+SELECT * FROM Employees WHERE salary < 50000;
+SELECT * FROM Employees WHERE experience >= 5;
+SELECT * FROM Employees WHERE rating <= 4.5;
+SELECT * FROM Employees WHERE age BETWEEN 25 AND 40;
+SELECT * FROM Employees WHERE first_name LIKE 'J%'; This will retrieve employees which firstname starts with letter j.
+SELECT * FROM Employees WHERE department IN ('HR' 'Finance' 'Admin'); This will retrieve employees which department is HR, Finance, Admin.
+SELECT * FROM Employees WHERE phone_number IS NULL;
+SELECT * FROM Employees WHERE department = 'HR' AND age >= 30;
+SELECT * FROM Employees WHERE department = 'Finance' OR department = 'Finance';
+
+
+
+
+
+
+
+
+
 
 
 
