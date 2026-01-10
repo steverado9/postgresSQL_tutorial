@@ -98,9 +98,43 @@ SELECT * FROM Employees WHERE phone_number IS NULL;
 SELECT * FROM Employees WHERE department = 'HR' AND age >= 30;
 SELECT * FROM Employees WHERE department = 'Finance' OR department = 'Finance';
 
+    Challenge 3
+You are running a DVD rental store and want to find the titles of films
+released in or after the year 2000 that have a rating of 'PG-13'.
+You also need to know the replacement cost of this films.
+    Answer
+SELECT title, replacement_cost FROM film WHERE released_year >= 2000 AND rating = 'PG-13';
 
+    Challenge 4
+You want to see the title of films with a rating of 'PG' and
+the replacement cost of $10.99.
+    Answer
+SELECT title FROM film WHERE rating = 'PG' AND replacement_cost = 10.99;
 
+    Challenge 5
+You want to find the titles of films released either before the year 2000
+or with a replacement cost less than $10.
+    Answer
+SELECT title FROM film WHERE release_year < 2000 OR replacement_cost < 10;
 
+ORDER BY: is used to sort the result set of a query in a specified order.
+    Why use ORDER BY
+1.Data Presentation: It is important to have data presented in a logical and readable order
+2.Analysis: Sorting the result of a data analysis can help ypu identify trends, patterns easily
+3.Pagination: Proper sorting is essential to ensure consistency between pages.
+    Syntax
+SELECT column1, column2,..
+FROM table_name
+WHERE conditions
+ORDER BY column1 [ASC | DESC], column2 [ASC|DESC]...
+
+What each component does:
+-SELECT: Specifies the columns you want to retrieve from the table.
+-FROM: specifies the table from which you're retrieving data.
+-WHERE: Optional condition to filter rows before sorting.
+-ORDER BY: Specifies the columns by which the result set should be sorted.
+you can sort by one or more columns, and for each column,
+you can specify ascending(ASC, which is default) or descending (DESC) order.
 
 
 
