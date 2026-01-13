@@ -117,7 +117,8 @@ or with a replacement cost less than $10.
     Answer
 SELECT title FROM film WHERE release_year < 2000 OR replacement_cost < 10;
 
-ORDER BY: is used to sort the result set of a query in a specified order.
+1d)ORDER BY
+This is used to sort the result set of a query in a specified order.
     Why use ORDER BY
 1.Data Presentation: It is important to have data presented in a logical and readable order
 2.Analysis: Sorting the result of a data analysis can help ypu identify trends, patterns easily
@@ -135,7 +136,115 @@ What each component does:
 -ORDER BY: Specifies the columns by which the result set should be sorted.
 you can sort by one or more columns, and for each column,
 you can specify ascending(ASC, which is default) or descending (DESC) order.
+Example
+SELECT * FROM customer ORDER BY first_name DESC;
 
+1e)LIMIT
+This is used to restrict the number of rows returned by a query.
+It allows you to specify a maximum number of rows to be included in the result set.
+    Syntax
+SELECT column_name,...
+FROM table_name
+LIMIT number_of_rows;
+    Example
+SELECT * FROM payment
+WHERE amount != 0.99
+ORDER BY payment_date ASC
+LIMIT 10;
+
+1f)BETWEEN
+This command is used to filter data within a specific range of values.
+It is used in conjunction with the WHERE clause to retrieve rows that falls within a specific range of values.
+    Syntax
+SELECT column_name
+FROM table_name
+WHere column_name
+BETWEEN value1 AND value2;
+note: The BETWEEN command is inclusive, it includes both the specified start and end values.
+    Examples
+SELECT * FROM payment
+WHERE amount BETWEEN 8 AND 9;
+
+SELECT * FROM payment
+WHERE amount NOT BETWEEN 8 AND 9;
+
+1g)IN
+The in command is used to filter data based on a specified list of values for a particular column.
+It allows you to retrieve rows where a specified column's value matches any of the values in the given list.
+    Syntax
+SELECT column_name
+FROM table_name
+WHERE column_name IN (value1, value2, ...);
+
+Example
+SELECT * FROM payment
+WHERE amount IN ('0.99', '1.98', '1.99');
+
+SELECT * FROM payment
+WHERE amount NOT IN ('0.99', '1.98', '1.99');
+
+1h)LIKE and ILIKE
+These commands are used for pattern matching within text columns.
+They allow you filter rows based on patterns defined using wildcard characters.
+    Wildcard characters
+These are special characters used to represent one or more characters in a pattern.
+1)'%': Represents any sequence of characters(including zero characters).
+use case:
+finding records that contain a particular substring within a larger string.
+2)'_': Represents a single character
+use case:
+Searching for values with a specific character at a certain position.
+3)'[]': Represents a character class, allowing you to match any single character within the specified set.
+use case:
+Searching for values that can have variations in a specific character position
+(eg for alternante spellings or formats)
+The main difference between the two commands is that
+LIKE performs case-sensitive matching
+ILIKE performs case-insensitive matching
+
+    Syntax
+For LIKE
+SELECT column_name
+FROM table_name
+WHERE column_name LIKE pattern;
+
+For ILIKE
+SELECT column_name
+FROM table_name
+WHERE column_name ILIKE pattern;
+
+    Examples
+1)Retrieving all customers with names starting with "J"
+
+SELECT customer_name, contact_email
+FROM customers
+WHERE customer_name LIKE 'J%';
+
+2)Finding products with names containing "blue"
+
+SELECT product_name, category
+FROM products
+WHERE product_name LIKE '%blue'
+
+3)Retrieving products with names containing the word "apple"
+SELECT product_name
+FROM products
+WHERE product_name LIKE '%apple%';
+
+4)This query retrieves customers with names that start with "J" and have second character followed by "n"
+SELECT customer_name
+FROM customers
+WHERE customer_name LIKE 'J_n%'
+
+5)SELECT product_name
+FROM product
+WHERE product_name LIKE 'colo[u]r%';
+
+4)Searching for employees with last names ending in "son" (case-insensitive)
+
+SELECT first_name, last_name
+FROM employees
+WHERE last_name ILIKE '%son'
 
 
 
