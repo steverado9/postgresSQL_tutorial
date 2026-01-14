@@ -68,7 +68,7 @@ SELECT COUNT(column_name) from table_name;
 This allows you to retrieve specific rows from a table that match certain conditions.
     Syntax
 SELECT column_name FROM table_name WHERE condition;
-A condition is a logical expression that evaluates to ture or false for each row in the table.
+A condition is a logical expression that evaluates to true or false for each row in the table.
 The WHERE clause uses the conditions to determine which rows to include in the result set.
 Common operators used in the conditions include:
 =: Equal to
@@ -158,7 +158,7 @@ It is used in conjunction with the WHERE clause to retrieve rows that falls with
     Syntax
 SELECT column_name
 FROM table_name
-WHere column_name
+WHERE column_name
 BETWEEN value1 AND value2;
 note: The BETWEEN command is inclusive, it includes both the specified start and end values.
     Examples
@@ -197,7 +197,7 @@ Searching for values with a specific character at a certain position.
 3)'[]': Represents a character class, allowing you to match any single character within the specified set.
 use case:
 Searching for values that can have variations in a specific character position
-(eg for alternante spellings or formats)
+(eg for alternate spellings or formats)
 The main difference between the two commands is that
 LIKE performs case-sensitive matching
 ILIKE performs case-insensitive matching
@@ -220,7 +220,7 @@ SELECT customer_name, contact_email
 FROM customers
 WHERE customer_name LIKE 'J%';
 
-2)Finding products with names containing "blue"
+2)Finding products with names ending in "blue"
 
 SELECT product_name, category
 FROM products
@@ -240,11 +240,186 @@ WHERE customer_name LIKE 'J_n%'
 FROM product
 WHERE product_name LIKE 'colo[u]r%';
 
-4)Searching for employees with last names ending in "son" (case-insensitive)
+6)Searching for employees with last names ending in "son" (case-insensitive)
 
 SELECT first_name, last_name
 FROM employees
 WHERE last_name ILIKE '%son'
+
+7)Searching for Email Domains
+Suppose you have a database table containing email addresses and you want to retrieve
+all email addresses from a specific domain, while allowing for variations in the domain name,
+such as different subdomains or top-level domains
+let say you are interested in retrieving email addresses from both "example.com" and "example.net".
+SELECT email_address
+FROM users
+WHERE email_address LIKE '%example[_].[cno]m';
+
+Explanation
+'%'example: matches any email address that ends with "example".
+'[_]': matches a single character, which can be any character(including a dot) in the email address.
+'[cno]': matches a single character from the character set [cno], which covers variations of the TLD: "c", "n", or "o"(for .com, .net, or .org).
+
+8) retrieve customers with firstname starting with letter 'J' and last name starting with letter 'S'
+case sensitive
+SELECT * FROM customer WHERE first_name LIKE 'J%' AND last_name LIKE 'S%';
+
+case insensitive
+SELECT * FROM customer WHERE first_name ILIKE 'J%' AND last_name ILIKE 'S%';
+
+9) Retrieving customers with one letter before 'er'.
+SELECT * FROM customer WHERE customer_name LIKE '_er%'
+
+10) Retrieving customers with one letter before 'er' and one letter after.
+SELECT * FROM customer WHERE customer_name LIKE '_er_'
+
+    CHALLENGES
+1)Retrieve the first_name, last_name and email of all customers
+SELECT first_name, last_name, email FROM customer;
+
+2)Retrieve the payment_id, customer_id and amount for payments with an amount greater than 100.
+SELECT payment_id, customer_id, amount
+FROM payment
+WHERE amount > 100;
+
+3)Retrieve the first_name, last_name and email of customers,
+sorted by lastname in ascending order and limit the results to 5.
+SELECT first_name, last_name, email
+FROM customer
+ORDER BY last_name ASC
+LIMIT 5;
+
+4)Retrieve the payment_id, customer_id and payment_date for payments made in the year 2022.
+SELECT payment_id, customer_id, payment_date
+FROM payment
+WHERE EXTRACT(year FROM payment_date) = 2022;
+
+5)Retrieving the first_name, last_name and email of customers whose email contains 'gmail'.
+SELECT first_name, last_name, email
+FROM customer
+WHERE email LIKE '%gmail%';
+
+6)Retrieve the payment_id, customer_id and amount for payments with an amount between 50 and 100 (inclusive).
+SELECT payment_id, customer_id, amount FROM payment
+WHERE amount BETWEEN 50 AND 100;
+
+1i)AGGREGATE functions
+These are special functions that perform calculations on a set of values and return a single value as a result.
+Aggregate functions operate on a group of rows and returns a single value for each group.
+They are crucial for tasks such as calculating averages, sums, counts, minimum and maximum values and more.
+key aspects of aggregate functions
+1)Grouping rows: aggregate functions are often used in conjunction with the GROUP BY clause.
+The Group By clause divides the result set into groups based on ome or more columns.
+The aggregate functions then operate on each group separately, producing a single result for each group
+2)Common aggregate functions include
+-SUM: calculates the sum of a numeric column within a group
+-AVG: Computes the average of a numeric column within a group
+-COUNT: counts the number of rows within a group
+-MIN: returns the minimum value from a column within a group.
+-MAX: return the maximum value from a column within a group.
+    Example
+1)get the minimum value from the replacement_cost
+SELECT MIN (replacement_cost) FROM film;
+2)get max value
+SELECT MAX (replacement_cost) FROM film;
+3)get max and min value
+SELECT MIN(replacement_cost), MAX(replacement_cost) FROM film;
+4)get the average
+SELECT AVG(replacement_cost) FROM film;
+5)get average and round up to 3 decimal place
+SELECT ROUND(AVG(replacement_cost), 3) FROM film;
+6) get the sum
+SELECT SUM(replacement_cost) FROM film;
+
+1j)GROUP BY
+This clause is used to group rows from a table based on one or more columns.
+This grouping enables the application of aggregate functions such as
+SUM, COUNT, AVG, MIN and MAX on subsets of data sharing common values in the specified columns.
+For the GROUP BY clause to be effective, it is essential to select categorical or discrete columns.
+The GROUP BY operation follows a Split, Apply, Combine process.
+    Example
+1)get total amount spent per customer ID
+SELECT customer_id, SUM(amount) FROM payment
+GROUP BY customer_id;
+
+2)get total amount spent per customer ID and order by sum of amount
+SELECT customer_id, SUM(amount) FROM payment
+GROUP BY customer_id
+ORDER BY SUM(amount);
+
+3)retrieve date of payment
+SELECT DATE(payment_date) FROM payment
+GROUP BY DATE(payment_date)
+ORDER BY SUM(amount)
+
+4)retrieve date of payment and sum of amount spent on that day
+SELECT DATE(payment_date), SUM(amount) FROM payment
+GROUP BY DATE(payment_date)
+ORDER BY SUM(amount)
+
+5)retrieve customer_id and amount of transaction grouped by customer_id
+SELECT customer_id, COUNT(amount) FROM payment
+GROUP BY customer_id
+ORDER BY COUNT(amount)
+
+    Challenge
+1)Find the total amount collected by each staff member
+SELECT staff_id , SUM(amount) FROM payment;
+grouped by staff_id;
+
+2)List all payments made on a specific date
+SELECT payment_id, amount, payment_date FROM payment
+WHERE payment_date = 'YYYY_MM_DD';
+
+1k)HAVING
+This command is used in conjunction with the GROUP BY clause to filter the result of a query based on the aggregated values of a column or columns.
+In other words, while the WHERE clause filters individual rows before they are grouped,
+the HAVING cluse filters groups of rows after they have been grouped.
+Purpose: The HAVING clause is used to filter rows in the result set after grouping and aggregation, specifically when you want to filter groups based on aggregated values
+Usage: it follows the GROUP BY clause and comes after it in a SQL query
+    Syntax
+SELECT column1, aggregate_function(column2)
+FROM table
+GROUP BY column1
+HAVING condition;
+
+Examples:
+1)To find departments with more than 10 employees.
+SELECT department, COUNT(*) FROM employees
+GROUP BY department
+HAVING COUNT(*) > 10
+
+2)To find the average salary of departments with an average salary above $50000
+SELECT department, AVG(salary) FROM employees
+GROUP BY department
+HAVING AVG(salary) > 50000;
+
+3)retrieve customer_id and sum of amount grouped by customer_id having sum(amount) > 100
+SELECT customer_id, sum(amount) FROM payment
+GROUP BY customer_id
+HAVING SUM(amount) > 100
+
+4)retrieve store_id and count customer_id grouped by store_id Having the count customer_id > 300
+SELECT store_id, COUNT(customer_id) FROM customer
+GROUP BY store_id
+HAVING COUNT(customer_id) > 300
+
+1l) AS
+The AS statement is a tool that lets you give nicknames to tables, columns or calculations within your queries.
+    Syntax
+SELECT original_name AS new_name
+FROM table_name;
+
+Example
+1)SELECT COUNT(amount) AS number_transaction FROM payment
+
+2)SELECT customer_id, SUM(amount) AS total_spent FROM payment
+GROUP BY customer_id
+
+3)SELECT customer_id, SUM(amount) AS total_spent FROM payment
+GROUP BY customer_id
+HAVING SUM(amount) > 100
+
 
 
 
